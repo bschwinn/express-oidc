@@ -6,9 +6,11 @@
 <body>
     <h2>Login</h2>
     <div>
-        <form action="/oauth">
-            Click below to login<br/>
-            <input type="submit" value="OIDC Login"/>
+        <form method="post">
+            Enter the secret passcode:<br/>
+            <input type="password" name="secret" /><br/>
+            <input type="submit" /><br/><br/>
+            <input type="button" value="OIDC Login" onclick="window.location.href='/oauth';"/>
         </form>
     </div>
 </body>
