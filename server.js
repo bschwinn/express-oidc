@@ -71,7 +71,6 @@ passport.serializeUser((user, done) => done(null, user));
 passport.deserializeUser((user, done) => done(null, user));
 
 app.get('/oauth', (req, res, next) => {
-    console.log('doing the oidc thing');
     passport.authenticate('oidc', { logout: 'true' })(req, res, next);
 });
 
