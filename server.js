@@ -25,22 +25,9 @@ app.get('/login', (req, res) => {
     return res.sendFile(filePath);
 });
 
-const { Issuer, Strategy, custom } = openIdClient
-custom.setHttpOptionsDefaults({
-  timeout: 10000,
-});
-
-const openIDCIssuer = await Issuer.discover(process.env.OIDC_OAUTH_URL)
-const redirectUri = process.env.OIDC_REDIRECT_URI
-const client = new openIDCIssuer.Client({
-  client_id: process.env.OIDC_CLIENT_ID,
-  client_secret: process.env.OIDC_CLIENT_SECRET,
-  redirect_uris: [`${process.env.HOST_URL}${redirectUri}`],
-});
-
+// express-session storage
 const RedisStore = redisStore(expressSession);
 const seshStore = new RedisStore({ client: stats.client });
-
 app.use(expressSession({
     cookie: {
       maxAge: 86400000,
@@ -52,9 +39,18 @@ app.use(expressSession({
     secret: process.env.EXPRESS_SESSION_SECRET,
     store: seshStore,
 }));
-
 app.use(passport.initialize());
 app.use(passport.session());
+
+// OIDC init
+const { Issuer, Strategy } = openIdClient
+const redirectUri = process.env.OIDC_REDIRECT_URI
+const openIDCIssuer = await Issuer.discover(process.env.OIDC_OAUTH_URL)
+const client = new openIDCIssuer.Client({
+  client_id: process.env.OIDC_CLIENT_ID,
+  client_secret: process.env.OIDC_CLIENT_SECRET,
+  redirect_uris: [`${process.env.HOST_URL}${redirectUri}`],
+});
 
 passport.use(
     'oidc',
@@ -70,6 +66,7 @@ passport.use(
 passport.serializeUser((user, done) => done(null, user));
 passport.deserializeUser((user, done) => done(null, user));
 
+// oauth endpoints
 app.get('/oauth', (req, res, next) => {
     passport.authenticate('oidc', { logout: 'true' })(req, res, next);
 });
