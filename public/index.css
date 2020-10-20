@@ -1,0 +1,89 @@
+:root {
+    --font-family: Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    --full-width: 720px;
+    --real-width: 700px;
+    --square-width: 180px;
+    --square-inner-width: 160px;
+
+    --color-bg: #fff;
+    --color-text: #000;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color-bg: #333;
+        --color-text: #f7f7f7;
+    }
+}
+
+@media (max-height: 640px) { 
+    :root {
+        --full-width: 560px;
+        --real-width: 540px;
+        --square-width: 140px;
+        --square-inner-width: 120px;
+    }
+}
+
+body {
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-family);
+    text-align: center;
+}
+
+h2 {
+    margin: 15px;
+    user-select: none;
+    cursor: pointer;
+}
+
+form input {
+    margin-top: 5px;
+}
+
+#squares {
+    margin: 0 auto;
+    width: var(--full-width);
+    height: var(--full-width);
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#err {
+    color: red;
+}
+
+#results {
+    margin: 0 auto;
+    width: var(--full-width);
+    height: var(--full-width);
+}
+
+.bar {
+    border-radius: 2px;
+    text-align: right;
+    padding:6px 2px;
+    margin:2px;
+}
+
+.barval {
+    padding:2px 7px;
+    border-radius: 7px;
+    background-color: var(--color-bg);
+    display: inline;
+    font-size: 12px;
+}
+
+.square {
+    flex: 1 1 var(--square-width);
+}
+
+.square div {
+    margin: auto;
+    cursor: pointer;
+    height: var(--square-inner-width);
+    width: var(--square-inner-width);
+    border-radius: 5px;
+    border: none;
+}
