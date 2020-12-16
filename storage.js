@@ -18,6 +18,7 @@ export default () => {
     });
 
     return {
+        client: redCli,
         getData: async () => {
             return new Promise((res, rej) => {
                 redCli.hgetall(mapName, (err, result) => {
